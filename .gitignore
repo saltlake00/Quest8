@@ -80,5 +80,15 @@ Engine/Programs/UnrealBuildTool/*
 *_bak*.hip
 *_bak*.hipnc
 
+######################
+# OS generated files #
+######################
+# Windows Thumbnail cache (윈도우 미리보기 캐시, 쓰레기 파일)
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+
 # Ignore files added by Finder on Mac
 *.DS_Store
