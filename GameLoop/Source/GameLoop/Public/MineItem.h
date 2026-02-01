@@ -17,13 +17,21 @@ class GAMELOOP_API AMineItem : public ABaseItem
 public:
 	AMineItem();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
-	float ExpolosionDelay;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
-	float ExpolosionRadius;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
-	float ExpolosionDamage;
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Item|Component")
+	USphereComponent* ExplosionCollision;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mine")
+	float ExplosionDelay;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mine")
+	float ExplosionRadius;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mine")
+	float ExplosionDamage;
+
+	FTimerHandle ExplosionTimerHandle;
 
 	virtual void ActivateItem(AActor* Activator) override;
+
+	void Explode();
 
 };

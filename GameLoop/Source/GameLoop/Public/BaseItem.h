@@ -7,6 +7,8 @@
 #include "ItemInterface.h"
 #include "BaseItem.generated.h"
 
+class USphereComponent;
+
 UCLASS()
 class GAMELOOP_API ABaseItem : public AActor, public IItemInterface
 {
@@ -17,13 +19,33 @@ public:
 	ABaseItem();
 
 protected:
-	virtual void OnItemOverlap(AActor* OverlacpActor) override;
-	virtual void OnItemEndOverlap(AActor* OverlapActor) override;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	FName ItemType;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category= "Item|Component")
+	USceneComponent* Scene;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Item|Component")
+	USphereComponent* Collision;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "Item|Component")
+	UStaticMeshComponent* StaticMesh;
+
+	virtual void OnItemOverlap(
+		UPrimitiveComponent* OverlappedComp,
+		AActor* OtherACtor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex,
+		bool bFromSweep,
+		const FHitResult& SweepResult) override;
+	virtual void OnItemEndOverlap(
+		UPrimitiveComponent* OverlappedComp,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex) override;
+
 	virtual void ActivateItem(AActor* Activator) override;
 	virtual FName GetItemType() const override;
 
 	virtual void DestroyItem();
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
-	FName ItemType;
 };
