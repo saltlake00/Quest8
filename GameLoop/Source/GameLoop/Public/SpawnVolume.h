@@ -18,11 +18,6 @@ public:
 	// Sets default values for this actor's properties
 	ASpawnVolume();
 
-	UFUNCTION(BlueprintCallable, Category = "Spawning")
-	void SpawnRandomItem();
-
-protected:
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawning")
 	USceneComponent* Scene;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawning")
@@ -31,8 +26,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Spawning")
 	UDataTable* ItemDataTable;
 
-	FVector GetRandomPointInVolume() const;
+	UFUNCTION(BlueprintCallable, Category="Spawning")
+	AActor* SpawnRandomItem();
+
 	FItemSpawnRow* GetRandomItem() const;
-	void SpawnItem(TSubclassOf<AActor> ItemClass);
+	FVector GetRandomPointInVolume() const;
+	AActor* SpawnItem(TSubclassOf<AActor> ItemClass);
 
 };
