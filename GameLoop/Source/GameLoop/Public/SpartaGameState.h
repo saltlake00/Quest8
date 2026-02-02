@@ -57,4 +57,8 @@ public:
 	void EndLevel();
 	
 	void UpdateHUD();
+
+	void StartWave();
+	void EndWave();
+
 };

@@ -21,7 +21,6 @@ void ASpartaGameState::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UpdateHUD();
 	StartLevel();
 
 	GetWorldTimerManager().SetTimer(
@@ -100,12 +99,6 @@ void ASpartaGameState::StartLevel()
 		LevelDuration,
 		false
 	);
-
-	UpdateHUD();
-
-	UE_LOG(LogTemp, Warning, TEXT("Level %d Start!, Spawned %d coin"),
-		CurrentLevelIndex + 1,
-		SpawnedCoinCount);
 }
 
 void ASpartaGameState::OnLevelTimeUp()
@@ -117,14 +110,10 @@ void ASpartaGameState::OnCoinCollected()
 {
 	CollectedCoinCount++;
 
-	UE_LOG(LogTemp, Warning, TEXT("Coin Collected: %d / %d"),
-		CollectedCoinCount,
-		SpawnedCoinCount)
-
-		if (SpawnedCoinCount > 0 && CollectedCoinCount >= SpawnedCoinCount)
-		{
-			EndLevel();
-		}
+	if (SpawnedCoinCount > 0 && CollectedCoinCount >= SpawnedCoinCount)
+	{
+		EndLevel();
+	}
 }
 
 void ASpartaGameState::EndLevel()
@@ -164,6 +153,7 @@ void ASpartaGameState::OnGameOver()
 	{
 		if (ASpartaPlayerController* SpartaPlayerController = Cast<ASpartaPlayerController>(PlayerController))
 		{
+			SpartaPlayerController->SetPause(true);
 			SpartaPlayerController->ShowMainMenu(true);
 		}
 	}

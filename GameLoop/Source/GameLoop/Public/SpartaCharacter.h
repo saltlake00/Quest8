@@ -6,7 +6,7 @@
 
 class USpringArmComponent; // 스프링 암 관련 클래스 헤더
 class UCameraComponent; // 카메라 관련 클래스 전방 선언
-
+class UWidgetComponent;
 struct FInputActionValue;
 
 UCLASS()
@@ -23,6 +23,9 @@ public:
 	// 카메라 컴포넌트
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	UCameraComponent* CameraComp;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "UI")
+	UWidgetComponent* OverheadWidget;
+
 
 	UFUNCTION(BlueprintPure, Category = "Health")
 	float GetHealth() const;
@@ -31,7 +34,17 @@ public:
 	void AddHealth(float Amount);
 
 protected:
+
+	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual float TakeDamage(
+		float DamageAmount,
+		struct FDamageEvent const& DamageEvent,
+		AController* EventInstigator,
+		AActor* DamageCauser
+	) override;
+
+
 	UFUNCTION()
 	void Move(const FInputActionValue& value);
 	UFUNCTION()
@@ -53,13 +66,9 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	virtual void OnDeath();
+	void UpdateOverheadHP();
 
-	virtual float TakeDamage(
-		float DamageAmount,
-		struct FDamageEvent const& DamageEvent,
-		AController* EventInstigator,
-		AActor* DamageCauser
-	) override;
+
 
 
 private:
